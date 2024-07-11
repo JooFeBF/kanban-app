@@ -43,12 +43,13 @@ export function LoginForm() {
   useEffect(() =>{
     if (errors.email?.message) {
       toast.error(errors.email?.message)
-    } else if (errors.password?.message) {
+    } 
+    if (errors.password?.message) {
         toast.error(errors.password?.message)
     }
   }, [errors.email, errors.password]);
 
-  const onSubmit: SubmitHandler<Object> = async (data) => {
+  const onSubmit: SubmitHandler<Object> = async () => {
     try {
       const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials);
       notifySuccess();
