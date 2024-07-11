@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";
 import Link from "next/link"
 
-
-
 export function WelcomePage() {
   const router = useRouter();
   const handleStart = () => {
