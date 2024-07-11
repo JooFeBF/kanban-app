@@ -1,9 +1,15 @@
-import { RegisterForm } from '@/components/component/register-form' 
+"use client"
 
-export default function RegisterPage() {
+import { useGetColumnsQuery } from "@/redux/api";
+
+export default function Home() {
+  const { data, error, isLoading } = useGetColumnsQuery(2);
+  console.log("data", data);
+
+
   return (
-    <main className="flex">
-      <RegisterForm />
+    <main>
+      Here i am using rtk query
     </main>
-  )
+  );
 }
