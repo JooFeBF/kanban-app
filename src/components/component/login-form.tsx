@@ -23,7 +23,8 @@ export function LoginForm() {
     e.preventDefault()
     console.log(credentials)
     const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials)
-    console.log(response)
+    console.log(response.data)
+
   }
 
   return (
