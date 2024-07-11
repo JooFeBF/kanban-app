@@ -27,7 +27,7 @@ export function RegisterForm() {
   })
 
   const notifyError = () => toast.error('Email or password incorrect')
-  const notifySuccess = () => toast.success('Login succesfuly')
+  const notifySuccess = () => toast.success('Register succesfuly')
   
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCredentials({

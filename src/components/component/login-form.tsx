@@ -40,7 +40,7 @@ export function LoginForm() {
     resolver: zodResolver(userScheme),
   })
 
-  useEffect(() =>{
+  useEffect(() => {
     if (errors.email?.message) {
       toast.error(errors.email?.message)
     } 
@@ -53,7 +53,7 @@ export function LoginForm() {
     try {
       const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials);
       notifySuccess();
-      router.push('/kanban');
+      router.push("/kanban");
     } catch (error) {
       console.error(error)
       notifyError();
