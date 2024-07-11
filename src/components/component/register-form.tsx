@@ -44,7 +44,7 @@ export function RegisterForm() {
   const onSubmit: SubmitHandler<Object> = async () => {
     try {
       const response = await createUser( credentials.username, credentials.email, credentials.password);
-      console.log(credentials);
+      console.log(response);
       router.push("/login")
       notifySuccess()
     } catch (error) {
