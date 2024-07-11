@@ -28,8 +28,8 @@ export function LoginForm() {
     e.preventDefault();
     try {
       const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials);
+      console.log(response)
       notifySuccess()
-      router.push('/kanban');
     } catch (error) {
       console.error(error)
       notifyError()

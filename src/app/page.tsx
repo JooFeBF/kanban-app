@@ -1,10 +1,14 @@
-import { Profile } from "@/components/component/profile";
-import Image from "next/image";
+"use client"
+
+import { useGetColumnsQuery } from "@/redux/api";
 
 export default function Home() {
+  const { data, error, isLoading } = useGetColumnsQuery(2);
+  console.log("data", data);
+
   return (
     <main>
-      <Profile />
+      Here i am using rtk query
     </main>
   );
 }

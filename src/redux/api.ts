@@ -1,6 +1,7 @@
+"use client"
+
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { create } from 'domain'
 
 /*
 column router
@@ -27,10 +28,16 @@ export const api = createApi({
   endpoints: (builder) => ({
     // Columns
     getColumns: builder.query({
-      query: (userId) => `/api/columns/${userId}`,
+      query: (userId) => ({
+        url: `/api/columns/${userId}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImVtYWlsIjoiZnJhbmtpQGdtYWlsLmNvbSIsImlhdCI6MTcyMDczNjI0NCwiZXhwIjoxNzIwNzYxNDQ0fQ.AEBs2_btS5qLtd8exGZSluxzDmh1iWcuK0MeCwoMeOc'
+        },
+      }),
     }),
     getColumnsWhitTasks: builder.query({
-      query: (userId) => `/api/sections/${userId}`,
+      query: (userId) => `/api/sections`,
     }),
     createColumn: builder.mutation({
       query: (body) => ({
@@ -40,10 +47,13 @@ export const api = createApi({
       })
     }),
     updateColumn: builder.mutation({
-      query: ({ userId, body }) => ({
+      query: ({ userId, header }) => ({
         url: `/api/columns/${userId}`,
         method: 'PUT',
-        body,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': 'Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImVtYWlsIjoiZnJhbmtpQGdtYWlsLmNvbSIsImlhdCI6MTcyMDczNjI0NCwiZXhwIjoxNzIwNzYxNDQ0fQ.AEBs2_btS5qLtd8exGZSluxzDmh1iWcuK0MeCwoMeOc"'
+        },
       })
     }),
     deleteColumn: builder.mutation({
