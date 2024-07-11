@@ -1,10 +1,9 @@
-import { Profile } from "@/components/component/profile";
-import Image from "next/image";
+import { WelcomePage } from '@/components/component/welcome-page'
 
 export default function Home() {
   return (
-    <main>
-      <Profile />
-    </main>
+    <body>
+      <WelcomePage />
+    </body>
   );
 }

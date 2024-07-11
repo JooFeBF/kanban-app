@@ -1,56 +1,3 @@
-import Link from "next/link"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-
-export function Profile() {
-  return (
-    <main className="flex-1 p-6 h-full">
-      <div className="bg-card p-6 rounded-lg shadow">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-4">
-            <Avatar>
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-lg font-semibold">John Doe</h3>
-              <p className="text-muted-foreground">Kanban</p>
-            </div>
-          </div>
-        </div>
-        <div className="grid gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Update Profile</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" defaultValue="John Doe" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" defaultValue="john@example.com" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input id="password" type="password" />
-                </div>
-                <Button type="submit">Update</Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </main>
-  )
-}
-
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -67,9 +14,8 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
     </svg>
-  )
+  );
 }
-
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -89,9 +35,8 @@ function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
     </svg>
-  )
+  );
 }
-
 
 function KanbanIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -111,9 +56,8 @@ function KanbanIcon(props: React.SVGProps<SVGSVGElement>) {
       <path d="M12 5v6" />
       <path d="M18 5v14" />
     </svg>
-  )
+  );
 }
-
 
 function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -133,9 +77,8 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
       <rect width="4" height="12" x="2" y="9" />
       <circle cx="4" cy="4" r="2" />
     </svg>
-  )
+  );
 }
-
 
 function LogOutIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -155,9 +98,8 @@ function LogOutIcon(props: React.SVGProps<SVGSVGElement>) {
       <polyline points="16 17 21 12 16 7" />
       <line x1="21" x2="9" y1="12" y2="12" />
     </svg>
-  )
+  );
 }
-
 
 function MoonIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -175,9 +117,8 @@ function MoonIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>
-  )
+  );
 }
-
 
 function SunIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -203,9 +144,8 @@ function SunIcon(props: React.SVGProps<SVGSVGElement>) {
       <path d="m6.34 17.66-1.41 1.41" />
       <path d="m19.07 4.93-1.41 1.41" />
     </svg>
-  )
+  );
 }
-
 
 function TwitterIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -223,9 +163,8 @@ function TwitterIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
     </svg>
-  )
+  );
 }
-
 
 function UserIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -244,9 +183,8 @@ function UserIcon(props: React.SVGProps<SVGSVGElement>) {
       <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
     </svg>
-  )
+  );
 }
-
 
 function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -265,5 +203,18 @@ function XIcon(props: React.SVGProps<SVGSVGElement>) {
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
-  )
+  );
 }
+
+export {
+  FacebookIcon,
+  InstagramIcon,
+  KanbanIcon,
+  LinkedinIcon,
+  LogOutIcon,
+  MoonIcon,
+  SunIcon,
+  TwitterIcon,
+  UserIcon,
+  XIcon,
+};
