@@ -95,4 +95,16 @@ export const api = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {  } = api
+export const { 
+  useGetColumnsQuery, 
+  useGetColumnsWhitTasksQuery, 
+  useCreateColumnMutation, 
+  useUpdateColumnMutation, 
+  useDeleteColumnMutation, 
+  useChangeColumnPositionMutation, 
+  useGetCardsByColumnIdQuery, 
+  useCreateCardMutation, 
+  useUpdateCardMutation, 
+  useChangeCardPositionIntoColumnMutation, 
+  useDeleteCardMutation
+ } = api
