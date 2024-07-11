@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, userScheme } from "../../schemes/userScheme";
 import { useRouter } from "next/navigation"
 import toast, { Toaster } from 'react-hot-toast'
+import { loginUser } from '../services/API_token';
 
 type Inputs = {
   email: string;
@@ -51,8 +52,8 @@ export function LoginForm() {
 
   const onSubmit: SubmitHandler<Object> = async () => {
     try {
-      console.log(credentials)
-      const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials);
+      const response = await loginUser(credentials.email, credentials.password);
+      console.log("login" + response );
       notifySuccess();
       router.push("/kanban");
     } catch (error) {
