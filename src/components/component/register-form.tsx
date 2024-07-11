@@ -6,13 +6,19 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState } from "react"
 import axios from "axios"
+import toast, { Toaster } from 'react-hot-toast'
+import { useRouter } from "next/navigation"
 
 export function RegisterForm() {
+  const router = useRouter()
   const [credentials, setCredentials] = useState({
     username: "",
     email: "",
     password: "",
   })
+
+  const notifyError = () => toast.error('Invalid credentials', { icon: '❌' })
+  const notifySuccess = () => toast.success('Register succesfuly', { icon: '🎉' })
 
   const handleChange = (e) => {
     setCredentials({
@@ -23,8 +29,14 @@ export function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(credentials)
-    const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/register", credentials)
+    try {
+      const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/register", credentials)
+      router.push("/login")
+      notifySuccess()
+    } catch (error) {
+      console.error(error)
+      notifyError()
+    }
   }
 
   return (
@@ -58,6 +70,7 @@ export function RegisterForm() {
           </Link>
         </div>
       </div>
+      <Toaster />
     </div>
   )
 }
