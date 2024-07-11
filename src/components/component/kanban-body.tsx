@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ModalSection } from "@/components/ui/modal-section"
+import { ModalTask } from "@/components/ui/modal-task"
 
 
 
@@ -11,7 +11,7 @@ export function KanbanBody() {
     <main className="flex-1 p-6 h-full">
       <div className="flex justify-end items-center mb-6">
         <Button>Add Section</Button>
-        <ModalSection></ModalSection>
+        <ModalTask></ModalTask>
       </div>
     </main>
   )
