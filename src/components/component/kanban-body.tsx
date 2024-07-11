@@ -7,7 +7,7 @@ export function KanbanBody() {
     <div className="flex flex-col h-screen">
       <header className="flex items-center justify-between bg-card px-6 py-4 shadow">
         <Link href="#" className="text-2xl font-bold" prefetch={false}>
-          Kanba
+          Kanban
         </Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
