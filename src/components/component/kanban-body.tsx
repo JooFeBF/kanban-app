@@ -11,7 +11,6 @@ export function KanbanBody() {
     <main className="flex-1 p-6 h-full">
       <div className="flex justify-end items-center mb-6">
         <Button>Add Section</Button>
-        <ModalSection></ModalSection>
       </div>
     </main>
   )

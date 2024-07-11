@@ -1,7 +1,15 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function WelcomePage() {
+  const router = useRouter()
+  const handleStart = () => {
+    router.push("/login")
+  }
+
   return (
     <div className="flex h-screen w-full items-center justify-center bg-background">
       <div className="w-full max-w-md space-y-6 rounded-lg bg-card p-6 shadow-lg">
@@ -10,7 +18,7 @@ export function WelcomePage() {
           <p className="text-muted-foreground">
             Streamline your workflow and boost productivity with our powerful project management tool.
           </p>
-          <Button type="submit" className="w-full">
+          <Button className="w-full" onClick={handleStart}>
             Start
           </Button>
         </div>
