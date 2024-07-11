@@ -70,18 +70,6 @@ export async function changePositionCard( id: number , position: number ){
 } 
 
 
-// actualizar una columna 
-export async function updateColumn( user_id: number,title: string ){
-  const data = await  AxiosInstance.put(`columns/${user_id}`, { title  });
-  return data;
-}
-
-// actualizar una tarjeta
-export async function updateCard( id: number, title: string, description: string){
-  const data = await  AxiosInstance.put(`cards/${id}`, { title, description });
-  return data;
-}
-
 // Delete a column 
 export async function deleteColumn( id: number ){
   const data = await  AxiosInstance.delete(`columns/${id}`);
