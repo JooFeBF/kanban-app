@@ -1,9 +1,31 @@
+"use client"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useState } from "react"
+import axios from "axios"
 
 export function LoginForm() {
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: ""
+  })
+
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.id]: e.target.value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(credentials)
+    const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials)
+    console.log(response)
+  }
+
   return (
     <div className="flex h-screen w-full items-center justify-center bg-background">
       <div className="w-full max-w-md space-y-6 rounded-lg bg-card p-6 shadow-lg">
@@ -11,22 +33,22 @@ export function LoginForm() {
           <h2 className="text-3xl font-bold">Login</h2>
           <p className="text-muted-foreground">Enter your email and password to get started.</p>
         </div>
-        <form className="grid gap-4">
+        <form className="grid gap-4" onSubmit={ handleSubmit }>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="Enter your email address" />
+            <Input id="email" type="email" placeholder="Enter your email address" onChange={ handleChange } />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" placeholder="Enter your password" />
+            <Input id="password" type="password" placeholder="Enter your password" onChange={ handleChange } />
           </div>
           <Button type="submit" className="w-full">
             Get started
           </Button>
         </form>
         <div className="text-center text-sm text-muted-foreground">
-          {"You don't have an account?"}
-          <Link href="#" className="font-medium underline underline-offset-4" prefetch={false}>
+          {"You don't have an account? "}
+          <Link href="/register" className="font-medium underline underline-offset-4" prefetch={false}>
             Register
           </Link>
         </div>
