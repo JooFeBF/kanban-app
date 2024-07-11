@@ -4,12 +4,14 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userScheme } from "../../schemes/userScheme";
+import { useRouter } from "next/navigation"
+import toast, { Toaster } from 'react-hot-toast'
 
 type Inputs = {
   email: string;
@@ -17,32 +19,43 @@ type Inputs = {
 }
 
 export function LoginForm() {
+  const router = useRouter()
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
-  }
-)
+  });
 
-console.log(credentials);
-
+  
+  const notifyError = () => toast.error('Email or password incorrect')
+  const notifySuccess = () => toast.success('Login succesfuly')
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCredentials({
       ...credentials,
       [e.target.id]: e.target.value
     });
   };
-
-  const { register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>({
+  
+  const { register, handleSubmit, formState: {errors}} = useForm<Inputs>({
     resolver: zodResolver(userScheme),
   })
 
+  useEffect(() =>{
+    if (errors.email?.message) {
+      toast.error(errors.email?.message)
+    } else if (errors.password?.message) {
+        toast.error(errors.password?.message)
+    }
+  }, [errors.email, errors.password]);
+
   const onSubmit: SubmitHandler<Object> = async (data) => {
     try {
-      console.log(credentials);
       const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials);
-      console.log(response);
+      notifySuccess();
+      router.push('/kanban');
     } catch (error) {
-      console.error('Error:', error);
+      console.error(error)
+      notifyError();
     }
   };
 
@@ -57,16 +70,12 @@ console.log(credentials);
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="text" placeholder="Enter your email address" {...register('email')} onChange={ handleChange } />
-            {
-              errors.email?.message && <p>{errors.email?.message}</p>
-            }
+
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" placeholder="Enter your password" {...register('password')} onChange={ handleChange } />
-            {
-              errors.password?.message && <p>{errors.password?.message}</p>
-            }
+
           </div>
           <Button type="submit" className="w-full">
             Get started
@@ -79,6 +88,10 @@ console.log(credentials);
           </Link>
         </div>
       </div>
+      <Toaster  
+        position="top-center"
+        reverseOrder={false}
+      />
     </div>
   )
 }

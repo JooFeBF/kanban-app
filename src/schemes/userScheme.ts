@@ -1,4 +1,5 @@
-import { string, z } from "zod";
+import { z } from "zod";
+import toast from 'react-hot-toast'
 
 export const userScheme = z.object({
     email: z.string()
