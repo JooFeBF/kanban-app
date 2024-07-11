@@ -5,26 +5,36 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState } from "react"
 import axios from "axios"
+import { useRouter } from "next/navigation"
+import toast, { Toaster } from 'react-hot-toast'
 
 export function LoginForm() {
+  const router = useRouter();
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
-  })
+  });
+  const notifyError = () => toast.error('Email or password incorrect', { icon: '❌' })
+  const notifySuccess = () => toast.success('Login succesfuly', { icon: '🎉' })
 
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
       [e.target.id]: e.target.value
-    })
-  }
+    });
+  };  
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log(credentials)
-    const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials)
-    console.log(response)
-  }
+    e.preventDefault();
+    try {
+      const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials);
+      notifySuccess()
+      router.push('/kanban');
+    } catch (error) {
+      console.error(error)
+      notifyError()
+    }
+  };
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-background">
@@ -53,6 +63,7 @@ export function LoginForm() {
           </Link>
         </div>
       </div>
+      <Toaster />
     </div>
   )
 }
