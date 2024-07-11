@@ -10,8 +10,9 @@ import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userScheme } from "../../schemes/userScheme";
-import { useRouter } from "next/navigation"
-import toast, { Toaster } from 'react-hot-toast'
+import { useRouter } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
+import { createUser } from '../services/API_token';
 
 type Inputs = {
   name: string;
@@ -42,7 +43,8 @@ export function RegisterForm() {
 
   const onSubmit: SubmitHandler<Object> = async () => {
     try {
-      const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/register", credentials)
+      const response = await createUser( credentials.username, credentials.email, credentials.password);
+      console.log(response);
       router.push("/login")
       notifySuccess()
     } catch (error) {
