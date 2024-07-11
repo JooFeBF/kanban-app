@@ -3,17 +3,19 @@ import { KanbanTask } from "./kanban-task";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useGetColumnsQuery } from "@/api/api";
+import { group } from "console";
+import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 
 
-export function KanbanSection(){
+export function KanbanSection(props){
 const [tasks, setTasks] = useState([]);
-
+const data = props.props
 useEffect(() => {
   const fetchTasks = async () => {
     try {
       console.log("1")
       const response = await axios.get(
-        `https://kanban-con-typescript.onrender.com/api/cards/11`,
+        `https://kanban-con-typescript.onrender.com/api/cards/${data.id}`,
         {
           headers: {
             Authorization:
@@ -32,16 +34,19 @@ useEffect(() => {
 
   fetchTasks();
 }, []);
-return (
-  <div>
-    <div>duro</div>
+const [Sectionlist, section]= useDragAndDrop({group:"section"})
 
+return (
+  <div ref={Sectionlist} className="block bg-black">
     {tasks.length > 0 ? (
       tasks.map((task) => {
-        return <KanbanTask key={task.id} props={task}></KanbanTask>;
-      })
-    ) : (
-      <div>sapo</div>
+        return(
+        <div>
+        <KanbanTask key={task.id} props={task}></KanbanTask>
+        </div>
+      )}
+    )) : (
+      <div className="block rounded-lg bg-white p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white  ">Empty</div>
     )}
   </div>
 );

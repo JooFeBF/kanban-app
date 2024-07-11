@@ -2,6 +2,7 @@
 import axios from "axios";
 import { KanbanSection } from "./kanban-section";
 import { useEffect, useState} from "react";
+import {dragAndDrop, useDragAndDrop} from "@formkit/drag-and-drop/react"
 
 export function KanbanSectionGenerator(){
 
@@ -11,7 +12,7 @@ export function KanbanSectionGenerator(){
       try {
         console.log("1");
         const response = await axios.get(
-          "https://kanban-con-typescript.onrender.com/api/colums/2",
+          "https://kanban-con-typescript.onrender.com/api/section/2",
           {
             headers: {
               Authorization:
@@ -19,8 +20,10 @@ export function KanbanSectionGenerator(){
             },
           }
         );
-        console.log("2");
+        console.log("2, hola");
         console.log(response.data);
+        console.log("2, adios");
+
         setSections(response.data); // Actualiza el estado con los datos recibidos
       } catch (error) {
         console.log("3");
@@ -28,19 +31,22 @@ export function KanbanSectionGenerator(){
       }
     };
 
-    fetchSections                 ();
+    fetchSections();
   }, []);
   
-
+  const [parent, section] = useDragAndDrop([])
 
   return(
-      <div>
-    <div>duro</div>
+      <div ref={parent} className="flex overflow-hidden m">
 
-    {SpeechRecognitionResult.length > 0 ? (
+    {sections.length > 0 ? (
       sections.map((section) => {
-        return <KanbanSection key={section.id} props={section}></KanbanSection>;
-      })
+        return (
+        <div className="block rounded-lg bg-white p-6 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white border-solid border-2 border-sky-500 w-80">
+          <h1 className="mb-2 text-xl leading-tight font-bold overflow-hidden">{`${section.title}`}</h1>
+          <KanbanSection key={section.id} props={section}></KanbanSection>
+          </div>
+      )})
     ) : (
       <div>sapo</div>
     )}
