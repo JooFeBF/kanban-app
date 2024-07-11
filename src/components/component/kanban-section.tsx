@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export function KanbanSection(){
-const response = asyhnc () =>{
+const response = async () =>{
   
 } 
 }

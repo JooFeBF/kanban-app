@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Kanban App",
-  description: "Kanban App built with Next.js"
+  description: "Kanban App built with Next.js",
 };
 
 export default function RootLayout({
@@ -14,9 +14,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
+  return <html lang="en">{children}</html>;
 }
