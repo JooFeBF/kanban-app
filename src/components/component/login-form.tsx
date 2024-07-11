@@ -9,7 +9,7 @@ import axios from "axios"
 import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userScheme } from "../../schemes/userScheme";
+import { loginSchema, userScheme } from "../../schemes/userScheme";
 import { useRouter } from "next/navigation"
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -37,7 +37,7 @@ export function LoginForm() {
   };
   
   const { register, handleSubmit, formState: {errors}} = useForm<Inputs>({
-    resolver: zodResolver(userScheme),
+    resolver: zodResolver(loginSchema),
   })
 
   useEffect(() =>{
@@ -51,9 +51,10 @@ export function LoginForm() {
 
   const onSubmit: SubmitHandler<Object> = async () => {
     try {
+      console.log(credentials)
       const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/login", credentials);
       notifySuccess();
-      router.push('/kanban');
+      router.push("/kanban");
     } catch (error) {
       console.error(error)
       notifyError();
