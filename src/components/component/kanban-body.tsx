@@ -285,3 +285,5 @@ function XIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+export default KanbanBody
