@@ -10,9 +10,9 @@ import axios from "axios"
 import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, userScheme } from "../../schemes/userScheme";
+import { loginSchema } from "../../schemes/userScheme";
 import { useRouter } from "next/navigation"
-import toast, { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast"
 import { loginUser } from '../services/API_token';
 
 type Inputs = {
@@ -54,9 +54,11 @@ export function LoginForm() {
   const onSubmit: SubmitHandler<Object> = async () => {
     try {
       const response = await loginUser(credentials.email, credentials.password);
-      console.log("login" + response );
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user_id", response.data.user.id);
+      
       notifySuccess();
-      router.push("/kanban");
+      router.push("/probarapi");
     } catch (error) {
       console.error(error)
       notifyError();

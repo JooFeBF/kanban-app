@@ -12,7 +12,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userScheme } from "../../schemes/userScheme";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { createUser } from '../services/API_token';
 
 
