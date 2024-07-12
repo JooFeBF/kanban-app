@@ -42,6 +42,8 @@ export function KanbanBody() {
             </div>
             <Column />
             <Column />
+            <Column />
+            <Column />
           </div>
         </div>
       </main>
