@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ModalSection } from "@/components/ui/modal-section"
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export function KanbanBody() {
   const [modal, setModal] = useState(false)

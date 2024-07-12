@@ -12,7 +12,10 @@ const router = useRouter()
       router.push("/login") 
      } ,  ) ; 
   return(
-    <KanbanBody />
+    <div>
+
+    <KanbanBody></KanbanBody>
+    </div>
   )
 }
 

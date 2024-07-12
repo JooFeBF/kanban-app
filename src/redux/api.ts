@@ -25,7 +25,13 @@ router.delete('/cards/:id', authenticate, deleteCard);//eliminar una carta
 // Define a service using a base URL and expected endpoints
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://kanban-con-typescript.onrender.com/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://kanban-con-typescript.onrender.com/',
+    prepareHeaders: (headers, { getState }) => {
+      headers.set('Access-Control-Allow-Origin', '*')
+      headers.set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksImVtYWlsIjoieWVpQGhvdG1haWwuY29tIiwiaWF0IjoxNzIwNzEwNTA0LCJleHAiOjE3MjA3MzU3MDR9.DoWfD3slFD_-yiovnu6pI82D8O59T18WMuWCO3-Q2As')
+      return headers
+  }
+   }),
   endpoints: (builder) => ({
     // Columns
     getColumns: builder.query({
