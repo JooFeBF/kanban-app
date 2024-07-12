@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   timeout: 5000,
   headers:
   {
-    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImVtYWlsIjoicHJ1ZWJhQGEuY29tIiwiaWF0IjoxNzIwNzA2NDY3LCJleHAiOjE3MjA3MzE2Njd9.oWuVBeXCx4A5czEtyFd0XLYrz3GDhFffkHoN6vagXQo`,
+    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsImVtYWlsIjoiUmFtaXJvQUBnbWFpbC5jbyIsImlhdCI6MTcyMDc0NTYxNiwiZXhwIjoxNzIwNzcwODE2fQ.IZa0Df9Le5v20AJauf00xD8YVXUoRZzNjnYO2ixLjaI`,
     'Content-Type': 'application/json',
     'accept': 'application/json',
   }

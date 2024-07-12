@@ -46,8 +46,9 @@ export async function changePassword(email: string, password: string, newPasswor
 
 
 // Create column
-export async function createColumn( user_id: number, title: string, position: number ){
-  const data = await  AxiosInstance.post('columns', { user_id, title, position });
+export async function createColumn(  title: string, position: string ){
+  console.log(title + ' ' + position);
+  const data = await  AxiosInstance.post('columns/create', { title, position });
   return data;
 }
 
