@@ -30,10 +30,10 @@ export function RegisterForm() {
   })
 
 
-  const notifyError = () => toast.error('Invalid credentials', { icon: '❌' })
-  const notifySuccess = () => toast.success('Register succesfuly', { icon: '🎉' })
+  const notifyError = () => toast.error('Invalid credentials')
+  const notifySuccess = () => toast.success('Register succesfuly')
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCredentials({
       ...credentials,
       [e.target.id]: e.target.value
