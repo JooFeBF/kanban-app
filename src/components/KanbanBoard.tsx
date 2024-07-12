@@ -107,7 +107,7 @@ function KanbanBoard() {
       className="
         m-auto
         flex
-        min-h-screen
+        min-h-full
         w-full
         items-center
         overflow-x-auto
