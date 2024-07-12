@@ -1,5 +1,5 @@
 "use client"
-import KanbanBody from "@/components/component/kanban-body"
+import KanbanBoard from "@/components/KanbanBoard"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 
@@ -12,7 +12,7 @@ const router = useRouter()
       router.push("/login") 
      } ,  ) ; 
   return(
-    <KanbanBody />
+    <KanbanBoard />
   )
 }
 
