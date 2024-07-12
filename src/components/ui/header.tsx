@@ -11,7 +11,7 @@ import { MoonIcon, SunIcon } from "@/components/ui/icons";
 export default function Header() {
   return (
     <header className="flex items-center justify-between bg-card px-6 py-4 shadow">
-      <Link href="#" className="text-2xl font-bold" prefetch={false}>
+      <Link href="/" className="text-2xl font-bold" prefetch={false}>
         Kanban
       </Link>
       <DropdownMenu>

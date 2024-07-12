@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ModalSection } from "@/components/ui/modal-section"
-import { useState } from "react";
+import { useState , useEffect } from "react";
 
 export function KanbanBody() {
   const [modal, setModal] = useState(false)
@@ -10,7 +10,6 @@ export function KanbanBody() {
   const toggleModal = () => {
     setModal(!modal)
   }
-  
   return (
     <>
       <main className="flex-1 p-6 h-full">

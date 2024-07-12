@@ -5,27 +5,18 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import axios from "axios"
-
 import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, userScheme } from "../../schemes/userScheme";
+import { loginSchema } from "../../schemes/userScheme";
 import { useRouter } from "next/navigation"
-import toast, { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast"
 import { loginUser } from '../services/API_token';
 
 type Inputs = {
   email: string;
   password: string;
 }
-
-export function LoginForm() {
-  const router = useRouter()
-
-import { useRouter } from "next/navigation"
-import toast, { Toaster } from 'react-hot-toast'
-
 export function LoginForm() {
   const router = useRouter();
 
@@ -33,11 +24,6 @@ export function LoginForm() {
     email: "",
     password: ""
   });
-
-  const notifyError = () => toast.error('Email or password incorrect', { icon: '❌' })
-  const notifySuccess = () => toast.success('Login succesfuly', { icon: '🎉' })
-
-
   
   const notifyError = () => toast.error('Email or password incorrect')
   const notifySuccess = () => toast.success('Login succesfuly')
@@ -66,9 +52,11 @@ export function LoginForm() {
   const onSubmit: SubmitHandler<Object> = async () => {
     try {
       const response = await loginUser(credentials.email, credentials.password);
-      console.log("login" + response );
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user_id", response.data.user.id);
+      
       notifySuccess();
-      router.push("/kanban");
+      router.push("/probarapi");
     } catch (error) {
       console.error(error)
       notifyError();

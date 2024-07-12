@@ -18,6 +18,7 @@ router.get('/cards/:column_id', authenticate, getCardsByColumnId);//obtener las 
 router.post('/cards', authenticate, createCard);//crear una nueva carta
 router.put('/cards/:id', authenticate, updateCard);//actualizar una carta
 router.put('/cards_position', authenticate, updateCardPosition);//cambiar la posicion de una carta
+router.patch('/cards/position_column', updateCardPosition_column)// cambia la posicon de la targeta 
 router.delete('/cards/:id', authenticate, deleteCard);//eliminar una carta
 */
 
@@ -32,34 +33,48 @@ export const api = createApi({
         url: `/api/columns/${userId}`,
         headers: {
           'Content-Type': 'application/json',
-          'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImVtYWlsIjoiZnJhbmtpQGdtYWlsLmNvbSIsImlhdCI6MTcyMDczNjI0NCwiZXhwIjoxNzIwNzYxNDQ0fQ.AEBs2_btS5qLtd8exGZSluxzDmh1iWcuK0MeCwoMeOc'
+          'authorization': `Bearer ${localStorage.getItem('token')}`
         },
       }),
     }),
     getColumnsWhitTasks: builder.query({
-      query: (userId) => `/api/sections`,
+      query: (userId) => ({
+        url: `/api/sections`,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
     }),
     createColumn: builder.mutation({
       query: (body) => ({
         url: `/api/columns/create`,
         method: 'POST',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     }),
     updateColumn: builder.mutation({
-      query: ({ userId, header }) => ({
+      query: ({ userId, body }) => ({
         url: `/api/columns/${userId}`,
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'authorization': 'Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImVtYWlsIjoiZnJhbmtpQGdtYWlsLmNvbSIsImlhdCI6MTcyMDczNjI0NCwiZXhwIjoxNzIwNzYxNDQ0fQ.AEBs2_btS5qLtd8exGZSluxzDmh1iWcuK0MeCwoMeOc"'
-        },
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     }),
     deleteColumn: builder.mutation({
       query: (userId) => ({
         url: `/api/columns/${userId}`,
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     }),
     changeColumnPosition: builder.mutation({
@@ -67,17 +82,31 @@ export const api = createApi({
         url: `/api/columns_position`,
         method: 'PUT',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     }),
     // Cards
     getCardsByColumnId: builder.query({
-      query: (columnId) => `/api/cards/${columnId}`,
+      query: (columnId) => ({
+        url: `/api/cards/${columnId}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }),
     }),
     createCard: builder.mutation({
       query: (body) => ({
         url: `/api/cards`,
         method: 'POST',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     }),
     updateCard: builder.mutation({
@@ -85,6 +114,10 @@ export const api = createApi({
         url: `/api/cards/${id}`,
         method: 'PUT',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     }),
     changeCardPositionIntoColumn: builder.mutation({
@@ -92,12 +125,31 @@ export const api = createApi({
         url: `/api/cards_position`,
         method: 'PUT',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+    }),
+    changeCardPositionBetweenColumns: builder.mutation({
+      query: (body) => ({
+        url: `/api/cards/position_column`,
+        method: 'PATCH',
+        body,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     }),
     deleteCard: builder.mutation({
       query: (id) => ({
         url: `/api/cards/${id}`,
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
     })
   }),
@@ -116,5 +168,6 @@ export const {
   useCreateCardMutation, 
   useUpdateCardMutation, 
   useChangeCardPositionIntoColumnMutation, 
-  useDeleteCardMutation
+  useDeleteCardMutation,
+  useChangeCardPositionBetweenColumnsMutation
  } = api

@@ -5,14 +5,12 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import axios from "axios"
-
 import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userScheme } from "../../schemes/userScheme";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { createUser } from '../services/API_token';
 
 
@@ -34,7 +32,6 @@ export function RegisterForm() {
   const notifySuccess = () => toast.success('Register succesfuly', { icon: '🎉' })
 
   const handleChange = (e) => {
-
     setCredentials({
       ...credentials,
       [e.target.id]: e.target.value
@@ -50,11 +47,6 @@ export function RegisterForm() {
       const response = await createUser( credentials.username, credentials.email, credentials.password);
       console.log(response);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/register", credentials)
-
       router.push("/login")
       notifySuccess()
     } catch (error) {
@@ -63,7 +55,7 @@ export function RegisterForm() {
     }
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     if (errors.email?.message) {
         toast.error(errors.email?.message)
     }
