@@ -17,7 +17,7 @@ export default function Nav() {
       <nav className="bg-card p-4 shadow">
         <div className="space-y-4">
           <Link
-            href="#"
+            href="/kanban"
             className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-muted"
             prefetch={false}
           >
@@ -25,7 +25,7 @@ export default function Nav() {
             <span>Kanban</span>
           </Link>
           <Link
-            href="#"
+            href="/kanban/profile"
             className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-muted"
             prefetch={false}
           >

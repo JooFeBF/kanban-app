@@ -1,6 +1,8 @@
 import { Card, CardHeader, CardTitle, CardDescription } from "./card";
 import { Button } from "./button";
 import { useRouter } from "next/navigation";
+import { logoutUser } from "../services/API_token";
+import axiosInstance from "../services/Interface_axios";
 
 interface ModalLogoutProps {
   onClose: () => void;
@@ -10,7 +12,8 @@ export function ModalLogout({ onClose }: ModalLogoutProps) {
   const router = useRouter();
 
   const handleLogout = () => {
-    router.push("/");
+    localStorage.removeItem('token');
+    router.push("/")
   };
 
   return (
