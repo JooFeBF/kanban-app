@@ -8,7 +8,7 @@ column router
 router.put('/columns_position', authenticate, changeColumnPosition); // cambiar la posicion de una columna
 router.get('/sections/:user_id', authenticate, getSectionsTasks); // obtener las columnas de un usuario con sus tareas
 router.get('/columns/:user_id', authenticate, getColumnByUserId); // obtener las columnas de un usuario
-router.post('/columns', authenticate, createColumn); // crear una nueva columna
+router.post('/columns/create', authenticate, createColumn); // crear una nueva columna
 router.put('/columns/:user_id', authenticate, updateColumn); // actualizar una columna
 
 router.delete('/columns/:user_id', authenticate, deleteColumn); // eliminar una columna
@@ -41,7 +41,7 @@ export const api = createApi({
     }),
     createColumn: builder.mutation({
       query: (body) => ({
-        url: `/api/columns`,
+        url: `/api/columns/create`,
         method: 'POST',
         body,
       })
