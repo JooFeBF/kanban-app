@@ -58,10 +58,10 @@ export const api = createApi({
       })
     }),
     updateColumn: builder.mutation({
-      query: ({ userId, body }) => ({
-        url: `/api/columns/${userId}`,
+      query: ({ user_id, title }) => ({
+        url: `/api/columns/${user_id}`,
         method: 'PUT',
-        body: body,
+        body: { title },
         headers: {
           'Content-Type': 'application/json',
           'authorization': `Bearer ${localStorage.getItem('token')}`

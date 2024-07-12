@@ -1,5 +1,12 @@
 import AxiosInstance from './Interface_axios';
 
+
+// Get user
+export async function getUser(){
+  const data = await  AxiosInstance.get(`user/${localStorage.getItem('user_id')}`);
+  return data;
+}
+
 // Create user
 export async function createUser( username: string, email: string, password: string ){
   const data = await  AxiosInstance.post('user/register', { username, email, password });

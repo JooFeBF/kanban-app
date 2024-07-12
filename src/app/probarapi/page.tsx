@@ -15,14 +15,14 @@ import { useGetColumnsQuery,
  } from "@/redux/api"
 import React from "react";
 import { useEffect } from "react";
+import { getUser } from "@/components/services/API_token";
 
 export default function Page() {
-  const [createColumn, { isLoading, isSuccess, isError, data, error }] = useCreateColumnMutation();
 
-  useEffect(() => {
+  useEffect( () => {
     const createNewColumn = async () => {
       try {
-        const response = await createColumn({ title: "probar", position: 5 });
+        const response = await getUser();
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -30,13 +30,10 @@ export default function Page() {
     };
 
     createNewColumn();
-  }, [createColumn]);
+  }, []);
 
   return (
     <div>
-      {isLoading && <p>Loading...</p>}
-      {isSuccess && <p>Column created successfully!</p>}
-      {isError && <p>Error creating column: {error.toString()}</p>}
       <p>Hello</p>
     </div>
   );
