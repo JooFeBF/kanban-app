@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import axios from "axios"
+
 import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,10 +22,21 @@ type Inputs = {
 
 export function LoginForm() {
   const router = useRouter()
+
+import { useRouter } from "next/navigation"
+import toast, { Toaster } from 'react-hot-toast'
+
+export function LoginForm() {
+  const router = useRouter();
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
   });
+
+  const notifyError = () => toast.error('Email or password incorrect', { icon: '❌' })
+  const notifySuccess = () => toast.success('Login succesfuly', { icon: '🎉' })
+
 
   
   const notifyError = () => toast.error('Email or password incorrect')
@@ -35,6 +47,7 @@ export function LoginForm() {
       ...credentials,
       [e.target.id]: e.target.value
     });
+
   };
   
   const { register, handleSubmit, formState: {errors}} = useForm<Inputs>({
@@ -91,10 +104,12 @@ export function LoginForm() {
           </Link>
         </div>
       </div>
+
       <Toaster  
         position="top-center"
         reverseOrder={false}
       />
+
     </div>
   )
 }

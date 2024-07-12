@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import axios from "axios"
+
 import React, { ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,6 +14,7 @@ import { userScheme } from "../../schemes/userScheme";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from 'react-hot-toast';
 import { createUser } from '../services/API_token';
+
 
 type Inputs = {
   name: string;
@@ -27,10 +29,12 @@ export function RegisterForm() {
     password: "",
   })
 
-  const notifyError = () => toast.error('Email or password incorrect')
-  const notifySuccess = () => toast.success('Register succesfuly')
-  
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+
+  const notifyError = () => toast.error('Invalid credentials', { icon: '❌' })
+  const notifySuccess = () => toast.success('Register succesfuly', { icon: '🎉' })
+
+  const handleChange = (e) => {
+
     setCredentials({
       ...credentials,
       [e.target.id]: e.target.value
@@ -45,6 +49,12 @@ export function RegisterForm() {
     try {
       const response = await createUser( credentials.username, credentials.email, credentials.password);
       console.log(response);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/register", credentials)
+
       router.push("/login")
       notifySuccess()
     } catch (error) {
