@@ -13,7 +13,8 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
-import TaskCard from "./TaskCard"
+import TaskCard from "./TaskCard";
+import axios from 'axios';
 
 interface Column {
   id: number;
@@ -32,44 +33,39 @@ interface Task {
   position_column: number;
 }
 
+interface ColumnResponse {
+  column: Column;
+  tasks: Task[];
+}
 
 function KanbanBoard() {
-  const [columns, setColumns] = useState<Column[]>();
+  const [columns, setColumns] = useState<ColumnResponse[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   useEffect(() => {
     const fetchSections = async () => {
       try {
-        console.log("1");
         const response = await axios.get(
           "https://kanban-con-typescript.onrender.com/api/sections",
           {
             headers: {
-              Authorization:
-              `Bearer ${localStorage.getItem('token')}`},
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
           }
         );
-        console.log("2, hola");
-        console.log(response.data);
-        console.log("2, adios");
-
-        setColumns(response.data); // Actualiza el estado con los datos recibidos
+        setColumns(response.data);
+        setTasks(response.data.flatMap((item: ColumnResponse) => item.tasks));
       } catch (error) {
-        console.log("3");
         console.error("Error fetching tasks:", error);
       }
     };
     fetchSections();
-    console.log("uy")
-    console.log(columns)
   }, []);
   
-  const columnsId = useMemo(() => columns.columns.map((col) => col.id), [columns]);
-
-  const [tasks, setTasks] = useState<Task[]>(columns.flatMap((item) => item.tasks));
-
-  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
-
-  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const columnsId = useMemo(() => columns.map((col) => col.column.id), [columns]);
+  console.log(columnsId);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -90,7 +86,7 @@ function KanbanBoard() {
         overflow-x-auto
         overflow-y-hidden
         px-[40px]
-    "
+      "
     >
       <DndContext
         sensors={sensors}
@@ -103,37 +99,35 @@ function KanbanBoard() {
             <SortableContext items={columnsId}>
               {columns.map((col) => (
                 <ColumnContainer
-                  key={col.id}
-                  column={col}
+                  key={col.column.id}
+                  column={col.column}
                   deleteColumn={deleteColumn}
                   updateColumn={updateColumn}
                   createTask={createTask}
                   deleteTask={deleteTask}
                   updateTask={updateTask}
-                  tasks={tasks.filter((task) => task.column_id === col.id)}
+                  tasks={col.tasks}
                 />
               ))}
             </SortableContext>
           </div>
           <button
-            onClick={() => {
-              createNewColumn();
-            }}
+            onClick={createNewColumn}
             className="
-      h-[60px]
-      w-[350px]
-      min-w-[350px]
-      cursor-pointer
-      rounded-lg
-      bg-mainBackgroundColor
-      border-2
-      border-columnBackgroundColor
-      p-4
-      ring-rose-500
-      hover:ring-2
-      flex
-      gap-2
-      "
+              h-[60px]
+              w-[350px]
+              min-w-[350px]
+              cursor-pointer
+              rounded-lg
+              bg-mainBackgroundColor
+              border-2
+              border-columnBackgroundColor
+              p-4
+              ring-rose-500
+              hover:ring-2
+              flex
+              gap-2
+            "
           >
             <PlusIcon />
             Add Column
@@ -150,9 +144,7 @@ function KanbanBoard() {
                 createTask={createTask}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.column_id === activeColumn.id
-                )}
+                tasks={tasks.filter((task) => task.column_id === activeColumn.id)}
               />
             )}
             {activeTask && (
@@ -180,7 +172,21 @@ function KanbanBoard() {
       description: `Task ${tasks.length + 1}`,
     };
 
-    setTasks([...tasks, newTask]);
+    // Actualizar el estado de tasks
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+
+    // Actualizar el estado de columns
+    setColumns((prevColumns) => {
+      return prevColumns.map((col) => {
+        if (col.column.id === column_id) {
+          return {
+            ...col,
+            tasks: [...col.tasks, newTask],
+          };
+        }
+        return col;
+      });
+    });
   }
 
   function deleteTask(id: number) {
@@ -198,18 +204,23 @@ function KanbanBoard() {
   }
 
   function createNewColumn() {
-    const columnToAdd: Column = {
+    const newColumn: Column = {
       id: generateId(),
       user_id: 1,
       position: columns.length + 1,
       title: `Column ${columns.length + 1}`,
     };
 
-    setColumns([...columns, columnToAdd]);
+    const newColumnResponse: ColumnResponse = {
+      column: newColumn,
+      tasks: [],
+    };
+
+    setColumns((prevColumns) => [...prevColumns, newColumnResponse]);
   }
 
   function deleteColumn(id: number) {
-    const filteredColumns = columns.filter((col) => col.id !== id);
+    const filteredColumns = columns.filter((col) => col.column.id !== id);
     setColumns(filteredColumns);
 
     const newTasks = tasks.filter((t) => t.column_id !== id);
@@ -218,8 +229,8 @@ function KanbanBoard() {
 
   function updateColumn(id: number, title: string) {
     const newColumns = columns.map((col) => {
-      if (col.id !== id) return col;
-      return { ...col, title };
+      if (col.column.id !== id) return col;
+      return { ...col, column: { ...col.column, title } };
     });
 
     setColumns(newColumns);
@@ -255,10 +266,8 @@ function KanbanBoard() {
     console.log("DRAG END");
 
     setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
-
-      const overColumnIndex = columns.findIndex((col) => col.id === overId);
-
+      const activeColumnIndex = columns.findIndex((col) => col.column.id === activeId);
+      const overColumnIndex = columns.findIndex((col) => col.column.id === overId);
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
   }
@@ -277,14 +286,14 @@ function KanbanBoard() {
 
     if (!isActiveATask) return;
 
-    // Im dropping a Task over another Task
+    // Estoy soltando una tarea sobre otra tarea
     if (isActiveATask && isOverATask) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         const overIndex = tasks.findIndex((t) => t.id === overId);
 
-        if (tasks[activeIndex].column_id != tasks[overIndex].column_id) {
-          // Fix introduced after video recording
+        if (tasks[activeIndex].column_id !== tasks[overIndex].column_id) {
+          // Solución introducida después de la grabación del video
           tasks[activeIndex].column_id = tasks[overIndex].column_id;
           return arrayMove(tasks, activeIndex, overIndex - 1);
         }
@@ -295,7 +304,7 @@ function KanbanBoard() {
 
     const isOverAColumn = over.data.current?.type === "Column";
 
-    // Im dropping a Task over a column
+    // Estoy soltando una tarea sobre una columna
     if (isActiveATask && isOverAColumn) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
@@ -309,7 +318,7 @@ function KanbanBoard() {
 }
 
 function generateId() {
-  /* Generate a random number between 0 and 10000 */
+  /* Genera un número aleatorio entre 0 y 10000 */
   return Math.floor(Math.random() * 10001);
 }
 

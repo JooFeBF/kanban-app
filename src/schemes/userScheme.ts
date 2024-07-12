@@ -1,5 +1,4 @@
 import { z } from "zod";
-import toast from 'react-hot-toast'
 
 export const userScheme = z.object({
     name: z.string()

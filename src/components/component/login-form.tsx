@@ -56,7 +56,7 @@ export function LoginForm() {
       localStorage.setItem("user_id", response.data.user.id);
       
       notifySuccess();
-      router.push("/probarapi");
+      router.push("/kanban");
     } catch (error) {
       console.error(error)
       notifyError();
