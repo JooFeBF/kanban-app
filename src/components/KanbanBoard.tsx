@@ -1,5 +1,5 @@
 import PlusIcon from "../icons/PlusIcon";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -13,58 +13,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
-import TaskCard from "./TaskCard";
-
-const EXAMPLE_ITEMS = [
-  {
-    "column": {
-      "id": 12,
-      "user_id": 2,
-      "title": "in process",
-      "position": 1
-    },
-    "tasks": [
-      {
-        "id": 15,
-        "column_id": 12,
-        "user_id": 1,
-        "title": "segunda tarea",
-        "description": "Descripción de la nueva tarea",
-        "position": 3,
-        "position_column": 1
-      }
-    ]
-  },
-  
-  {
-    "column": {
-      "id": 11,
-      "user_id": 2,
-      "title": "to do",
-      "position": 1
-    },
-    "tasks": [
-      {
-        "id": 14,
-        "column_id": 11,
-        "user_id": 1,
-        "title": "Tercera Tarea",
-        "description": "Descripción de la nueva tarea",
-        "position": 1,
-        "position_column": 1
-      },
-      {
-        "id": 13,
-        "column_id": 11,
-        "user_id": 1,
-        "title": "segunda tarea",
-        "description": "Descripción de la nueva tarea",
-        "position": 1,
-        "position_column": 2
-      }
-    ]
-  }
-]
+import TaskCard from "./TaskCard"
 
 interface Column {
   id: number;
@@ -85,10 +34,38 @@ interface Task {
 
 
 function KanbanBoard() {
-  const [columns, setColumns] = useState<Column[]>(EXAMPLE_ITEMS.map((item) => item.column));
-  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
+  const [columns, setColumns] = useState<Column[]>();
 
-  const [tasks, setTasks] = useState<Task[]>(EXAMPLE_ITEMS.flatMap((item) => item.tasks));
+  useEffect(() => {
+    const fetchSections = async () => {
+      try {
+        console.log("1");
+        const response = await axios.get(
+          "https://kanban-con-typescript.onrender.com/api/sections",
+          {
+            headers: {
+              Authorization:
+              `Bearer ${localStorage.getItem('token')}`},
+          }
+        );
+        console.log("2, hola");
+        console.log(response.data);
+        console.log("2, adios");
+
+        setColumns(response.data); // Actualiza el estado con los datos recibidos
+      } catch (error) {
+        console.log("3");
+        console.error("Error fetching tasks:", error);
+      }
+    };
+    fetchSections();
+    console.log("uy")
+    console.log(columns)
+  }, []);
+  
+  const columnsId = useMemo(() => columns.columns.map((col) => col.id), [columns]);
+
+  const [tasks, setTasks] = useState<Task[]>(columns.flatMap((item) => item.tasks));
 
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
 
