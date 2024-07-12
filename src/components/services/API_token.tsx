@@ -32,21 +32,21 @@ export async function deleteUser( id: number){
 }
 
 // Change username whit email and password 
-export default async function changeUserName( newUsername: string, email: string, password: string ){
-  const data = await  AxiosInstance.put('user/update/username', { newUsername, email, password });
+export async function changeUserName( newUsername: string, email: string ){
+  const data = await  AxiosInstance.put('user/update/username', { newUsername, email });
   return data;
 }
 
 // change email 
-export async function changeEmail(email: string, newEmail: string, password: string ){
+export async function changeEmail(email: string, newEmail: string ){
   const data = await  AxiosInstance.put('user/update/email', { 
-    email, newEmail, password });
+    email, newEmail });
   return data;
 } 
 
 // change password 
-export async function changePassword(email: string, password: string, newPassword: string ){
-  const data = await  AxiosInstance.put('user/update/password', { email, password, newPassword });
+export async function changePassword(email: string , newPassword: string ){
+  const data = await  AxiosInstance.put('user/update/password', { email, newPassword });
   return data;
 }
 

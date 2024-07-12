@@ -7,7 +7,7 @@ import Link from "next/link"
 export function WelcomePage() {
   const router = useRouter();
   const handleStart = () => {
-    router.push("login");
+    router.push("/login");
   }
   return (
     <div className="flex h-screen w-full items-center justify-center bg-background">
