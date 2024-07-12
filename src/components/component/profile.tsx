@@ -8,25 +8,37 @@ import { Input } from "@/components/ui/input"
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from "next/navigation"
-import { useState , ChangeEvent } from "react"
+import { useState , ChangeEvent, useEffect } from "react"
 import { loginSchema } from "@/schemes/userScheme"
 import { changeEmail , changePassword ,changeUserName , getUser} from "../services/API_token"
+import { info } from "console"
+import { any, object } from "zod"
 export  function Profile() {
-
+ const [ data , setData ] = useState({})
   console.log(localStorage)
   const router = useRouter()
 
-  const getInfo = async () => {
-    try {
-      const info = await getUser();
-      console.log(info)
+  
+
+
+
+  useEffect (() => {
+    const getInfo = async () => {
+      try {
+        const {data} = await getUser();
+        console.log(data)
+        setData(data)
+      }
+      catch (error) {
+        console.log(error)
+      }
     }
-    catch {
-      console.log("error")
-    }
-  }
-  getInfo ()
+     getInfo()
+    
+  } , [])
+  
   return (
+    
     <main className="flex-1 p-6 h-full">
       <div className="bg-card p-6 rounded-lg shadow">
         <div className="flex items-center justify-between mb-4">
@@ -36,7 +48,7 @@ export  function Profile() {
               <AvatarFallback>US</AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="text-lg font-semibold">.user</h3>
+              <h3 className="text-lg font-semibold"> { data.toString() } </h3>
               <p className="text-muted-foreground">Kanban</p>
             </div>
           </div>
