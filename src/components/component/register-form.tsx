@@ -34,7 +34,6 @@ export function RegisterForm() {
   const notifySuccess = () => toast.success('Register succesfuly', { icon: '🎉' })
 
   const handleChange = (e) => {
-
     setCredentials({
       ...credentials,
       [e.target.id]: e.target.value
@@ -50,11 +49,6 @@ export function RegisterForm() {
       const response = await createUser( credentials.username, credentials.email, credentials.password);
       console.log(response);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      const response = await axios.post("https://kanban-con-typescript.onrender.com/api/user/register", credentials)
-
       router.push("/login")
       notifySuccess()
     } catch (error) {
@@ -63,7 +57,7 @@ export function RegisterForm() {
     }
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     if (errors.email?.message) {
         toast.error(errors.email?.message)
     }

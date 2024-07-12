@@ -19,13 +19,6 @@ type Inputs = {
   email: string;
   password: string;
 }
-
-export function LoginForm() {
-  const router = useRouter()
-
-import { useRouter } from "next/navigation"
-import toast, { Toaster } from 'react-hot-toast'
-
 export function LoginForm() {
   const router = useRouter();
 
@@ -33,11 +26,6 @@ export function LoginForm() {
     email: "",
     password: ""
   });
-
-  const notifyError = () => toast.error('Email or password incorrect', { icon: '❌' })
-  const notifySuccess = () => toast.success('Login succesfuly', { icon: '🎉' })
-
-
   
   const notifyError = () => toast.error('Email or password incorrect')
   const notifySuccess = () => toast.success('Login succesfuly')
