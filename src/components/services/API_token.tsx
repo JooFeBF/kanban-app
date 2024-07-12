@@ -47,13 +47,13 @@ export async function changePassword(email: string, password: string, newPasswor
 
 // Create column
 export async function createColumn( user_id: number, title: string, position: number ){
-  const data = await  AxiosInstance.post('columns', { user_id, title, position });
+  const data = await  AxiosInstance.post('columns/create', { user_id, title, position });
   return data;
 }
 
 // Create card
-export async function createCard(user_id: number, column_id: number, title: string, description: string, position: number ){
-  const data = await  AxiosInstance.post('cards', { column_id, title, description, user_id, position });
+export async function createCard(user_id: number, column_id: number, title: string, description: string, position: number, position_column: number){
+  const data = await  AxiosInstance.post('cards', { column_id, title, description, user_id, position, position_column});
   return data;
 }
 

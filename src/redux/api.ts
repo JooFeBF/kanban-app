@@ -11,7 +11,7 @@ router.get('/columns/:user_id', authenticate, getColumnByUserId); // obtener las
 router.post('/columns/create', authenticate, createColumn); // crear una nueva columna
 router.put('/columns/:user_id', authenticate, updateColumn); // actualizar una columna
 
-router.delete('/columns/:user_id', authenticate, deleteColumn); // eliminar una columna
+router.delete('/columns/:id', authenticate, deleteColumn); // eliminar una columna
 
 card router
 router.get('/cards/:column_id', authenticate, getCardsByColumnId);//obtener las cartas de una columna
@@ -38,7 +38,7 @@ export const api = createApi({
       }),
     }),
     getColumnsWhitTasks: builder.query({
-      query: (userId) => ({
+      query: () => ({
         url: `/api/sections`,
         headers: {
           'Content-Type': 'application/json',
@@ -47,10 +47,10 @@ export const api = createApi({
       })
     }),
     createColumn: builder.mutation({
-      query: (body) => ({
+      query: ({ title, position }) => ({
         url: `/api/columns/create`,
         method: 'POST',
-        body,
+        body: { title, position },
         headers: {
           'Content-Type': 'application/json',
           'authorization': `Bearer ${localStorage.getItem('token')}`
@@ -61,6 +61,7 @@ export const api = createApi({
       query: ({ userId, body }) => ({
         url: `/api/columns/${userId}`,
         method: 'PUT',
+        body: body,
         headers: {
           'Content-Type': 'application/json',
           'authorization': `Bearer ${localStorage.getItem('token')}`
@@ -68,8 +69,8 @@ export const api = createApi({
       })
     }),
     deleteColumn: builder.mutation({
-      query: (userId) => ({
-        url: `/api/columns/${userId}`,
+      query: (id) => ({
+        url: `/api/columns/${id}`,
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -78,10 +79,10 @@ export const api = createApi({
       })
     }),
     changeColumnPosition: builder.mutation({
-      query: (body) => ({
+      query: (propiedades) => ({
         url: `/api/columns_position`,
         method: 'PUT',
-        body,
+        body: propiedades,
         headers: {
           'Content-Type': 'application/json',
           'authorization': `Bearer ${localStorage.getItem('token')}`
@@ -99,10 +100,12 @@ export const api = createApi({
       }),
     }),
     createCard: builder.mutation({
-      query: (body) => ({
+      query: (propiedades) => ({
         url: `/api/cards`,
         method: 'POST',
-        body,
+        body: {
+          ...propiedades
+        },
         headers: {
           'Content-Type': 'application/json',
           'authorization': `Bearer ${localStorage.getItem('token')}`

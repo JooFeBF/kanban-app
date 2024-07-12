@@ -56,6 +56,8 @@ export function LoginForm() {
       const response = await loginUser(credentials.email, credentials.password);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user_id", response.data.user.id);
+      localStorage.setItem("username", response.data.user.username);
+      localStorage.setItem("email", response.data.user.email);
       
       notifySuccess();
       router.push("/probarapi");
