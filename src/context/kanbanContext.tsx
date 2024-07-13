@@ -1,6 +1,6 @@
-import { Context, useContext } from "react";
+import { Context, useContext, createContext, useState } from "react";
 
-export const KanbanContext: Context<any> = createContext({});
+const KanbanContext: Context<any> = createContext({});
 
 export const KanbanProvider = ({ children }: { children: React.ReactNode }) => {
   const [columns, setColumns] = useState([]);

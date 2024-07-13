@@ -1,18 +1,19 @@
 "use client"
-import KanbanBoard from "@/components/KanbanBoard"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-
+import { KanbanProvider } from "@/context/kanbanContext";
+import KanbanBody from "@/components/component/kanban-body"
 
 function KanbanPage(){
 const router = useRouter()
    useEffect(() => {
-  
-    if ( !localStorage.token   )
+    if ( !localStorage.token )
       router.push("/login") 
      } ,  ) ; 
   return(
-    <KanbanBoard />
+    <KanbanProvider>
+      <KanbanBody />
+    </KanbanProvider>
   )
 }
 

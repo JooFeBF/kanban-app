@@ -203,12 +203,12 @@ function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  function createNewColumn() {
+  function createNewColumn(title: string) {
     const newColumn: Column = {
       id: generateId(),
       user_id: 1,
       position: columns.length + 1,
-      title: `Column ${columns.length + 1}`,
+      title: `${title}`,
     };
 
     const newColumnResponse: ColumnResponse = {
