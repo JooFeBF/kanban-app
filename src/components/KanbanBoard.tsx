@@ -111,27 +111,6 @@ function KanbanBoard() {
               ))}
             </SortableContext>
           </div>
-          <button
-            onClick={createNewColumn}
-            className="
-              h-[60px]
-              w-[350px]
-              min-w-[350px]
-              cursor-pointer
-              rounded-lg
-              bg-mainBackgroundColor
-              border-2
-              border-columnBackgroundColor
-              p-4
-              ring-rose-500
-              hover:ring-2
-              flex
-              gap-2
-            "
-          >
-            <PlusIcon />
-            Add Column
-          </button>
         </div>
 
         {createPortal(
@@ -203,12 +182,12 @@ function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  function createNewColumn(title: string) {
+  function createNewColumn() {
     const newColumn: Column = {
       id: generateId(),
       user_id: 1,
       position: columns.length + 1,
-      title: `${title}`,
+      title: `Column ${columns.length + 1}`,
     };
 
     
@@ -273,11 +252,10 @@ function KanbanBoard() {
 
   function onDragOver(event: DragOverEvent) {
     const { active, over } = event;
-    console.log(over)
     if (!over) return;
 
     const activeId = active.id;
-    const overId = over.id;
+    const overId = over.id as number;
 
     if (activeId === overId) return;
 
@@ -310,7 +288,6 @@ function KanbanBoard() {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
 
         tasks[activeIndex].column_id = overId;
-        console.log("DROPPING TASK OVER COLUMN", { activeIndex });
         return arrayMove(tasks, activeIndex, activeIndex);
       });
     }

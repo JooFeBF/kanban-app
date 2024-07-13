@@ -1,31 +1,34 @@
 "use client"
-<<<<<<< HEAD
-=======
+import { useState } from "react"
 import KanbanBoard from "@/components/KanbanBoard"
 import { KanbanProvider } from "@/context/kanbanContext"
->>>>>>> 7195793 (Changed to using context)
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { KanbanProvider } from "@/context/kanbanContext";
-import KanbanBody from "@/components/component/kanban-body"
+import { ModalSection } from "@/components/ui/modal-section"
+import { Button } from "@/components/ui/button"
 
 function KanbanPage(){
-const router = useRouter()
+  const [modal, setModal] = useState(false)
+
+  const toggleModal = () => {
+    setModal(prevModal => !prevModal)
+  }
+  const router = useRouter()
    useEffect(() => {
-<<<<<<< HEAD
-    if ( !localStorage.token )
-=======
     if (!localStorage.token)
->>>>>>> 7195793 (Changed to using context)
       router.push("/login") 
      } , []) 
   return(
     <KanbanProvider>
-<<<<<<< HEAD
-      <KanbanBody />
-=======
       <KanbanBoard />
->>>>>>> 7195793 (Changed to using context)
+      <div className="flex justify-end mb-6 m-6">
+          <Button onClick={toggleModal}>Add Section</Button>
+        </div>
+      {modal && (
+        <div className="fixed inset-0 bg-opacity-30 bg-background-opacity flex justify-center items-center">
+          <ModalSection />
+        </div>
+      )}
     </KanbanProvider>
   )
 }
