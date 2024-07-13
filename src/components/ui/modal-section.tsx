@@ -7,24 +7,30 @@ import { Button } from "./button";
 import { useKanban } from "../../context/kanbanContext";
 import React, { useState, ChangeEvent } from 'react';
 import { Column } from "../../types"
+import { useCreateColumnMutation } from "@/redux/api";
 
 export function ModalSection({ toggleModal }: { toggleModal: () => void }) {
-  const [ string, setString ] = useState('');
+  const [ title, setString ] = useState('');
+  const [createColumn, { isLoading, isSuccess, isError, data, error }] = useCreateColumnMutation();
   const { columns, setColumns } = useKanban();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setString(e.target.value)
   } 
 
-  const handleColumn = (event: React.FormEvent) => {
+  const handleColumn = async (event: React.FormEvent) => {
+    event.preventDefault();
+    
     const newColumn: Column = {
       id: columns.length + 1,
       user_id: 2,
-      title: string,
+      title: title,
       position: 1
     }
-    event.preventDefault();
-    setColumns((prevColumns) => [...prevColumns, newColumn]);
+
+    const response = await createColumn({title: title, position: columns.length});
+
+    setColumns((prevColumns) => [...prevColumns, response.data]);
     toggleModal();
   }
 

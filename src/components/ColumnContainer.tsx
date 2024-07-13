@@ -10,7 +10,6 @@ interface Props {
   column: Column;
   deleteColumn: (id: number) => void;
   updateColumn: (id: number, title: string) => void;
-
   createTask: (columnId: number) => void;
   updateTask: (id: number, content: string) => void;
   deleteTask: (id: number) => void;
@@ -58,18 +57,7 @@ function ColumnContainer({
       <div
         ref={setNodeRef}
         style={style}
-        className="
-      bg-columnBackgroundColor
-      opacity-40
-      border-2
-      border-pink-500
-      w-[350px]
-      h-[500px]
-      max-h-[500px]
-      rounded-md
-      flex
-      flex-col
-      "
+        className="bg-columnBackgroundColor opacity-40 border-2 border-pink-500 w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"
       ></div>
     );
   }
@@ -78,15 +66,7 @@ function ColumnContainer({
     <div
       ref={setNodeRef}
       style={style}
-      className="
-  bg-columnBackgroundColor
-  w-[350px]
-  h-[500px]
-  max-h-[500px]
-  rounded-md
-  flex
-  flex-col
-  "
+      className="bg-columnBackgroundColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"
     >
       {/* Column title */}
       <div
@@ -95,35 +75,11 @@ function ColumnContainer({
         onClick={() => {
           setEditMode(true);
         }}
-        className="
-      bg-mainBackgroundColor
-      text-md
-      h-[60px]
-      cursor-grab
-      rounded-md
-      rounded-b-none
-      p-3
-      font-bold
-      border-columnBackgroundColor
-      border-4
-      flex
-      items-center
-      justify-between
-      "
+        className="bg-mainBackgroundColor text-md h-[60px] cursor-grab rounded-md rounded-b-none p-3 font-bold border-columnBackgroundColor border-4 flex items-center justify-between"
       >
         <div className="flex gap-2">
           <div
-            className="
-        flex
-        justify-center
-        items-center
-        bg-columnBackgroundColor
-        px-2
-        py-1
-        text-sm
-        rounded-full
-        "
-          >
+            className="flex justify-center items-center bg-columnBackgroundColor px-2 py-1 text-sm rounded-full">
             
           </div>
           {!editMode && column.title}
@@ -147,20 +103,11 @@ function ColumnContainer({
           onClick={() => {
             deleteColumn(column.id);
           }}
-          className="
-        stroke-gray-500
-        hover:stroke-white
-        hover:bg-columnBackgroundColor
-        rounded
-        px-1
-        py-2
-        "
-        >
+          className="stroke-gray-500 hover:stroke-white hover:bg-columnBackgroundColor rounded px-1 py-2">
           <TrashIcon />
         </button>
       </div>
 
-      {/* Column task container */}
       <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (

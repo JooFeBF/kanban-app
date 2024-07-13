@@ -77,17 +77,7 @@ function KanbanBoard() {
 
   return (
     <div
-      className="
-        m-auto
-        flex
-        min-h-full
-        w-full
-        items-center
-        overflow-x-auto
-        overflow-y-hidden
-        px-[40px]
-      "
-    >
+      className="m-auto flex min-h-full w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
@@ -189,8 +179,6 @@ function KanbanBoard() {
       position: columns.length + 1,
       title: `Column ${columns.length + 1}`,
     };
-
-    
 
     setColumns((prevColumns) => [...prevColumns, newColumn]);
   }

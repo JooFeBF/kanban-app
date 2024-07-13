@@ -1,3 +1,5 @@
+"use client";
+
 import AxiosInstance from './Interface_axios';
 
 // Create user
@@ -46,8 +48,8 @@ export async function changePassword(email: string, password: string, newPasswor
 
 
 // Create column
-export async function createColumn( user_id: number, title: string, position: number ){
-  const data = await  AxiosInstance.post('columns', { user_id, title, position });
+export async function createColumn( title: string, position: number ){
+  const data = await  AxiosInstance.post('columns', { title, position });
   return data;
 }
 
