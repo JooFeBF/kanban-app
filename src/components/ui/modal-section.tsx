@@ -8,8 +8,7 @@ import { useKanban } from "../../context/kanbanContext";
 import React, { useState, ChangeEvent } from 'react';
 import { Column } from "../../types"
 
-export function ModalSection(props) {
-  console.log(props)
+export function ModalSection({ toggleModal }: { toggleModal: () => void }) {
   const [ string, setString ] = useState('');
   const { columns, setColumns } = useKanban();
 
@@ -26,6 +25,7 @@ export function ModalSection(props) {
     }
     event.preventDefault();
     setColumns((prevColumns) => [...prevColumns, newColumn]);
+    toggleModal();
   }
 
   return (
@@ -41,7 +41,7 @@ export function ModalSection(props) {
             <Input type="text" id="title" name="title" placeholder="Enter section title" onChange={handleChange}/>
           </div>
           <div className="flex justify-end">
-            <Button variant="outline" className="mr-2">
+            <Button onClick={toggleModal} variant="outline" className="mr-2">
               Cancel
             </Button>
             <Button type="submit">Create Section</Button>

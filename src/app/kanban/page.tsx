@@ -18,6 +18,7 @@ function KanbanPage(){
     if (!localStorage.token)
       router.push("/login") 
      } , []) 
+     
   return(
     <KanbanProvider>
       <KanbanBoard />
@@ -26,7 +27,7 @@ function KanbanPage(){
         </div>
       {modal && (
         <div className="fixed inset-0 bg-opacity-30 bg-background-opacity flex justify-center items-center">
-          <ModalSection />
+          <ModalSection toggleModal={toggleModal}/>
         </div>
       )}
     </KanbanProvider>
