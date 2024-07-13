@@ -15,6 +15,7 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import TaskCard from "./TaskCard";
 import axios from 'axios';
+import { useKanban } from "@/context/kanbanContext";
 
 interface Column {
   id: number;
@@ -38,9 +39,9 @@ interface ColumnResponse {
   tasks: Task[];
 }
 
+
 function KanbanBoard() {
-  const [columns, setColumns] = useState<ColumnResponse[]>([]);
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const { columns, setColumns, tasks, setTasks } = useKanban();
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
@@ -55,7 +56,7 @@ function KanbanBoard() {
             },
           }
         );
-        setColumns(response.data);
+        setColumns(response.data.map((item: ColumnResponse) => item.column));
         setTasks(response.data.flatMap((item: ColumnResponse) => item.tasks));
       } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -64,8 +65,7 @@ function KanbanBoard() {
     fetchSections();
   }, []);
   
-  const columnsId = useMemo(() => columns.map((col) => col.column.id), [columns]);
-  console.log(columnsId);
+  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -99,14 +99,14 @@ function KanbanBoard() {
             <SortableContext items={columnsId}>
               {columns.map((col) => (
                 <ColumnContainer
-                  key={col.column.id}
-                  column={col.column}
+                  key={col.id}
+                  column={col}
                   deleteColumn={deleteColumn}
                   updateColumn={updateColumn}
                   createTask={createTask}
                   deleteTask={deleteTask}
                   updateTask={updateTask}
-                  tasks={col.tasks}
+                  tasks={tasks.filter((task) => task.column_id === col.id)}
                 />
               ))}
             </SortableContext>
@@ -178,10 +178,10 @@ function KanbanBoard() {
     // Actualizar el estado de columns
     setColumns((prevColumns) => {
       return prevColumns.map((col) => {
-        if (col.column.id === column_id) {
+        if (col.id === column_id) {
           return {
             ...col,
-            tasks: [...col.tasks, newTask],
+            tasks: [...tasks, newTask],
           };
         }
         return col;
@@ -211,16 +211,13 @@ function KanbanBoard() {
       title: `${title}`,
     };
 
-    const newColumnResponse: ColumnResponse = {
-      column: newColumn,
-      tasks: [],
-    };
+    
 
-    setColumns((prevColumns) => [...prevColumns, newColumnResponse]);
+    setColumns((prevColumns) => [...prevColumns, newColumn]);
   }
 
   function deleteColumn(id: number) {
-    const filteredColumns = columns.filter((col) => col.column.id !== id);
+    const filteredColumns = columns.filter((col) => col.id !== id);
     setColumns(filteredColumns);
 
     const newTasks = tasks.filter((t) => t.column_id !== id);
@@ -229,8 +226,8 @@ function KanbanBoard() {
 
   function updateColumn(id: number, title: string) {
     const newColumns = columns.map((col) => {
-      if (col.column.id !== id) return col;
-      return { ...col, column: { ...col.column, title } };
+      if (col.id !== id) return col;
+      return { ...col, column: { ...col, title } };
     });
 
     setColumns(newColumns);
@@ -253,6 +250,7 @@ function KanbanBoard() {
     setActiveTask(null);
 
     const { active, over } = event;
+    console.log("DRAG END", { active, over });
     if (!over) return;
 
     const activeId = active.id;
@@ -266,14 +264,16 @@ function KanbanBoard() {
     console.log("DRAG END");
 
     setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.column.id === activeId);
-      const overColumnIndex = columns.findIndex((col) => col.column.id === overId);
+      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
+      const overColumnIndex = columns.findIndex((col) => col.id === overId);
+      console.log({activeColumnIndex, overColumnIndex});
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
   }
 
   function onDragOver(event: DragOverEvent) {
     const { active, over } = event;
+    console.log(over)
     if (!over) return;
 
     const activeId = active.id;
