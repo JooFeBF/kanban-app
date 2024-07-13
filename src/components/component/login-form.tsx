@@ -17,6 +17,7 @@ type Inputs = {
   email: string;
   password: string;
 }
+
 export function LoginForm() {
   const router = useRouter();
 

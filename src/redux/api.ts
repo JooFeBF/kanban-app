@@ -1,5 +1,3 @@
-"use client"
-
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
@@ -151,6 +149,15 @@ export const api = createApi({
           'authorization': `Bearer ${localStorage.getItem('token')}`
         }
       })
+    }),
+    getUserById: builder.query({
+      query: (id) => ({
+        url: `/api/user/${id}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
     })
   }),
 })
@@ -169,5 +176,6 @@ export const {
   useUpdateCardMutation, 
   useChangeCardPositionIntoColumnMutation, 
   useDeleteCardMutation,
-  useChangeCardPositionBetweenColumnsMutation
+  useChangeCardPositionBetweenColumnsMutation,
+  useGetUserByIdQuery
  } = api

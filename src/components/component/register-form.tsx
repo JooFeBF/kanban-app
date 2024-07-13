@@ -19,6 +19,7 @@ type Inputs = {
   email: string;
   password: string;
 }
+
 export function RegisterForm() {
   const router = useRouter()
   const [credentials, setCredentials] = useState({
@@ -26,7 +27,6 @@ export function RegisterForm() {
     email: "",
     password: "",
   })
-
 
   const notifyError = () => toast.error('Invalid credentials', { icon: '❌' })
   const notifySuccess = () => toast.success('Register succesfuly', { icon: '🎉' })

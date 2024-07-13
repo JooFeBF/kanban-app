@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -5,8 +6,70 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userScheme } from "../../schemes/userScheme";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import React from 'react';
+
+import { useGetUserByIdQuery } from "@/redux/api"
+import { useState, useEffect } from "react"
+
+type Inputs = {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export function Profile() {
+  const router = useRouter()
+
+  const { data, error, isLoading } = useGetUserByIdQuery(25);
+  const [credentials, setCredentials] = useState({
+    username: "",
+    email: "",
+    password: "",
+  })
+
+  const notifyError = () => toast.error('Invalid credentials', { icon: '❌' })
+  const notifySuccess = () => toast.success('Register succesfuly', { icon: '🎉' })
+
+  const handleChange = (e: any) => {
+    setCredentials({
+      ...credentials,
+      [e.target.id]: e.target.value
+    });
+  };
+
+  const { update, handleSubmit, formState: {errors}} = useForm<Inputs>({
+    resolver: zodResolver(userScheme),
+  })
+
+  const onSubmit: SubmitHandler<Object> = async () => {
+    try {
+      
+      notifySuccess()
+    } catch (error) {
+      console.error(error)
+      notifyError()
+    }
+  }
+
+  useEffect(() => {
+    if (errors.email?.message) {
+        toast.error(errors.email?.message)
+    }
+    if (errors.password?.message) {
+        toast.error(errors.password?.message)
+    } 
+    if (errors.name?.message) {
+        toast.error(errors.name?.message)
+    }
+  }, [errors.email, errors.password, errors.name]);
+
+  console.log(credentials)
+
   return (
     <main className="flex-1 p-6 h-full">
       <div className="bg-card p-6 rounded-lg shadow">
@@ -17,7 +80,7 @@ export function Profile() {
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="text-lg font-semibold">John Doe</h3>
+              <h3 className="text-lg font-semibold">{ isLoading ? 'loading...' : data.username }</h3>
               <p className="text-muted-foreground">Kanban</p>
             </div>
           </div>
@@ -31,11 +94,11 @@ export function Profile() {
               <form className="grid gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" defaultValue="John Doe" />
+                  <Input id="name" defaultValue={ isLoading ? 'Loading...' : data.username } />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" defaultValue="john@example.com" />
+                  <Input id="email" type="email" defaultValue={ isLoading ? 'Loading...' : data.email } />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
