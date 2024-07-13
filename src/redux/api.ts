@@ -66,8 +66,8 @@ export const api = createApi({
       })
     }),
     deleteColumn: builder.mutation({
-      query: (userId) => ({
-        url: `/api/columns/${userId}`,
+      query: (columnId: number) => ({
+        url: `/api/columns/${columnId}`,
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

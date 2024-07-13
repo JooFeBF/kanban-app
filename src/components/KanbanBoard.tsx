@@ -16,6 +16,7 @@ import { createPortal } from "react-dom";
 import TaskCard from "./TaskCard";
 import axios from 'axios';
 import { useKanban } from "@/context/kanbanContext";
+import { useDeleteColumnMutation } from "@/redux/api";
 
 interface Column {
   id: number;
@@ -172,23 +173,14 @@ function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  function createNewColumn() {
-    const newColumn: Column = {
-      id: generateId(),
-      user_id: 1,
-      position: columns.length + 1,
-      title: `Column ${columns.length + 1}`,
-    };
-
-    setColumns((prevColumns) => [...prevColumns, newColumn]);
-  }
-
-  function deleteColumn(id: number) {
+  async function deleteColumn(id: number){
     const filteredColumns = columns.filter((col) => col.id !== id);
     setColumns(filteredColumns);
 
     const newTasks = tasks.filter((t) => t.column_id !== id);
     setTasks(newTasks);
+
+    const response = await useDeleteColumnMutation(id);
   }
 
   function updateColumn(id: number, title: string) {
