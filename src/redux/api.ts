@@ -56,9 +56,10 @@ export const api = createApi({
       })
     }),
     updateColumn: builder.mutation({
-      query: ({ userId, body }) => ({
-        url: `/api/columns/${userId}`,
+      query: ({ columnId, body }) => ({
+        url: `/api/columns/${columnId}`,
         method: 'PUT',
+        body,
         headers: {
           'Content-Type': 'application/json',
           'authorization': `Bearer ${localStorage.getItem('token')}`
@@ -66,8 +67,8 @@ export const api = createApi({
       })
     }),
     deleteColumn: builder.mutation({
-      query: (columnId: number) => ({
-        url: `/api/columns/${columnId}`,
+      query: (columnId) => ({
+        url: `api/columns/${columnId}`,
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

@@ -16,7 +16,7 @@ import { createPortal } from "react-dom";
 import TaskCard from "./TaskCard";
 import axios from 'axios';
 import { useKanban } from "@/context/kanbanContext";
-import { useDeleteColumnMutation } from "@/redux/api";
+import { useDeleteColumnMutation, useUpdateColumnMutation } from "@/redux/api";
 
 interface Column {
   id: number;
@@ -45,6 +45,8 @@ function KanbanBoard() {
   const { columns, setColumns, tasks, setTasks } = useKanban();
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [deleteColumnMutation] = useDeleteColumnMutation();
+  const [updateColumnMutation] = useUpdateColumnMutation();
 
   useEffect(() => {
     const fetchSections = async () => {
@@ -173,14 +175,17 @@ function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  async function deleteColumn(id: number){
+  async function deleteColumn(id: number) {
+  
     const filteredColumns = columns.filter((col) => col.id !== id);
     setColumns(filteredColumns);
-
+  
     const newTasks = tasks.filter((t) => t.column_id !== id);
     setTasks(newTasks);
+  
 
-    const response = await useDeleteColumnMutation(id);
+      const response = await deleteColumnMutation(id);
+      console.log(response);
   }
 
   function updateColumn(id: number, title: string) {
@@ -190,6 +195,7 @@ function KanbanBoard() {
     });
 
     setColumns(newColumns);
+
   }
 
   function onDragStart(event: DragStartEvent) {
